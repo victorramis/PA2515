@@ -1,0 +1,4 @@
+First of all, we need, for dev tools:
+30GB space, at least
+SQL Server 2012 with SP1
+Visual Studio 2012 Update 4 (x86) 
