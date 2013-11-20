@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanteenManagemenWebApp", "CanteenManagemenWebApp\CanteenManagemenWebApp.csproj", "{D9FD367E-5E4D-42AB-84C7-1AEFB95C441E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanteenManagemenWebApp.Tests", "CanteenManagemenWebApp.Tests\CanteenManagemenWebApp.Tests.csproj", "{1B4A03F7-0B5F-4077-86AD-422F5E999BA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9FD367E-5E4D-42AB-84C7-1AEFB95C441E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9FD367E-5E4D-42AB-84C7-1AEFB95C441E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9FD367E-5E4D-42AB-84C7-1AEFB95C441E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9FD367E-5E4D-42AB-84C7-1AEFB95C441E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B4A03F7-0B5F-4077-86AD-422F5E999BA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B4A03F7-0B5F-4077-86AD-422F5E999BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B4A03F7-0B5F-4077-86AD-422F5E999BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B4A03F7-0B5F-4077-86AD-422F5E999BA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
