@@ -11,8 +11,8 @@ namespace CanteenManagemenWebApp
         {
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{id}/{otherId}/{details}",
+                defaults: new { id = RouteParameter.Optional, otherId = RouteParameter.Optional, details = RouteParameter.Optional }
             );
         }
     }

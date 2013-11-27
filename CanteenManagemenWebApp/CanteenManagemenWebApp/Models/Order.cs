@@ -18,5 +18,6 @@ namespace CanteenManagemenWebApp.Models
         public DateTime DateConfirmed { get; set; }
         public bool IsConfirmed { get; set; }
         public bool IsDelivered { get; set; }
+        public UserProfile User { get; set; }
     }
 }

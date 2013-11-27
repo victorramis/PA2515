@@ -20,6 +20,10 @@ namespace CanteenManagemenWebApp.Controllers
         {
             return View(db.MenuItems.ToList());
         }
+        public ActionResult ClientIndex()
+        {
+            return View("Client", db.MenuItems.ToList());
+        }
 
         //
         // GET: /Menu/Details/5

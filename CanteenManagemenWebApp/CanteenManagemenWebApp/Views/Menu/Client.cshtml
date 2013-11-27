@@ -1,0 +1,110 @@
+﻿@model IEnumerable<CanteenManagemenWebApp.Models.MenuItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="menu" style="">
+
+    <h2>Menu Items</h2>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAvailable)
+            </th>
+            <th>Add to cart</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr data-id="@Html.DisplayFor(modelItem => item.MenuItemId)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAvailable)
+                </td>
+                <td>
+                    <img class="add-item" src="~/Images/Plussign.png" alt="Add to cart" />
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="cart" style="">
+    <h2>Cart</h2>
+    <ol id="cart-list">
+    </ol>
+    <input type="submit" value="Checkout" id="checkout"/>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var cart = $("#cart-list");
+        var cartItems = [];
+
+        var addItemTocart = function (item) {
+            console.log(item);
+            var itemName = item.parent().parent().children(":first").text();
+            var itemId = item.parent().parent().attr("data-id");
+
+            cartItems.push({
+                Id: itemId,
+                Name: itemName
+            });
+
+            cart.prepend("<li>" + itemName + "</li>");
+        };
+
+        var saveOrder = function (cartItems, onSuccess) {
+            console.log(cartItems);
+            $.ajax({
+                url: "/api/orderapi",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify(cartItems),
+                success: function (data) {
+                    alert("Your order has been sent");
+                    onSuccess();
+                }
+
+            });
+        };
+
+        var removeCartItems = function () {
+            cart.children().remove();
+            cartItems = [];
+        }
+
+        $(".add-item").live("click", function (ev, el) {
+            addItemTocart($(this));
+        });
+
+        $("#checkout").live("click", function (ev, el) {
+            ev.preventDefault();
+            //console.log(cartItems);
+            saveOrder(cartItems, function () {
+                removeCartItems();
+            });
+        });
+    });
+</script>
+
