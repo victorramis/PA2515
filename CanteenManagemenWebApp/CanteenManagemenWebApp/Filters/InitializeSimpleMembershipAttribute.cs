@@ -25,11 +25,11 @@ namespace CanteenManagemenWebApp.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+                Database.SetInitializer<CanteenContext>(null);
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new CanteenContext())
                     {
                         if (!context.Database.Exists())
                         {
@@ -38,7 +38,7 @@ namespace CanteenManagemenWebApp.Filters
                         }
                     }
 
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                    WebSecurity.InitializeDatabaseConnection("CanteenConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
                 }
                 catch (Exception ex)
                 {

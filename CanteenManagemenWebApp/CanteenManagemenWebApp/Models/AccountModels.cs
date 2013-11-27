@@ -8,15 +8,6 @@ using System.Web.Security;
 
 namespace CanteenManagemenWebApp.Models
 {
-    public class UsersContext : DbContext
-    {
-        public UsersContext()
-            : base("DefaultConnection")
-        {
-        }
-
-        public DbSet<UserProfile> UserProfiles { get; set; }
-    }
 
     [Table("UserProfile")]
     public class UserProfile
@@ -25,6 +16,9 @@ namespace CanteenManagemenWebApp.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
     }
 
     public class RegisterExternalLoginModel
