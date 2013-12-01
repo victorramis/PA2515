@@ -16,5 +16,6 @@ namespace CanteenManagemenWebApp.Models
         public float Price { get; set; }
         public string Description { get; set; }
         public bool IsAvailable { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

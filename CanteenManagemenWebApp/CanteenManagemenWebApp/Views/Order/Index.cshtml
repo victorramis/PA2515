@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CanteenManagemenWebApp.Models.Order>
+﻿@model IEnumerable<CanteenManagemenWebApp.Models.OrderDTO>
 
 @{
     ViewBag.Title = "Index";
@@ -26,6 +26,9 @@
         <th>
             @Html.DisplayNameFor(model => model.IsDelivered)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderItems)
+        </th>
         <th></th>
     </tr>
 
@@ -45,6 +48,11 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsDelivered)
+        </td>
+        <td>
+           @foreach (var i in item.OrderItems) { 
+            <img src="@i.MenuItem.ImageUrl" height="20px" style="margin:5px" />
+           }
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.OrderId }) |

@@ -776,14 +776,15 @@ tr.pager td {
 
 
 .cart {
-    width: 200px;
+    width: 250px;
     position: relative;
     float: left;
+    margin-left:30px;
     /*background-color: #808080;*/
-}
+}   
 
 .menu {
-    width: 500px;
+    width: 650px;
     position: relative;
     float: left;
     /*background-color: #ffd800;*/

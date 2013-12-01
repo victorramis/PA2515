@@ -18,7 +18,31 @@ namespace CanteenManagemenWebApp.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Orders.ToList());
+            var orders = db.Orders.ToList();
+            var fullOrders = new List<OrderDTO>();
+
+            foreach (var order in orders)
+            {
+                var fullOrder = new OrderDTO(order);
+                var orderItems = new List<OrderItemDTO>();
+                using (CanteenContext ctx = new CanteenContext())
+                {
+                    var orderItemsFull = (from o in ctx.OrderItems orderby o.OrderItemId where o.OrderId == fullOrder.OrderId select o).ToList();
+                    foreach (var i in orderItemsFull)
+                    {
+                        var menuItem = (from o in ctx.MenuItems orderby o.MenuItemId where o.MenuItemId == i.MenuItemId select o).ToList().FirstOrDefault();
+                        var orderX = new OrderItemDTO(i);
+                        orderX.MenuItem = menuItem;
+                        if (menuItem != null)
+                            orderItems.Add(orderX);
+                    }
+
+                }
+                fullOrder.OrderItems = orderItems;
+                if (fullOrder.OrderItems.Count() > 0)
+                    fullOrders.Add(fullOrder);
+            }
+            return View(fullOrders);
         }
 
         //

@@ -16,6 +16,7 @@ namespace CanteenManagemenWebApp.Models
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 
 }

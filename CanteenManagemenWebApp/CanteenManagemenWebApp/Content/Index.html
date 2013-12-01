@@ -1,0 +1,69 @@
+﻿<html>
+    <head>
+	    <title>Adrian Vladu</title>
+	    <script src="http://code.jquery.com/jquery-1.10.1.js"></script>
+	</head>
+	
+	<body>
+	    <img   class="images" src="http://upload.wikimedia.org/wikipedia/commons/5/56/Lenin,_Engels,_Marx.png"/>
+		<input type="text" id="myText" placeholder="Rock band name" />
+		<p id="myParagraph"> Hello!</p>
+		<input id="mysubmitButton" type="submit" class="submitButton" value="Order" />
+		
+		
+		<style>		
+		.images {
+			width: 100px;
+			height: 100px;
+			border: 4px solid #0FF;
+			cursor:pointer;
+		}
+		</style>
+	    <script>
+		//console.log($);
+		
+		var onReady = function(){
+		    $("#mysubmitButton").on("click", function(){
+				var inputData=$("#myText").val();
+				//$("#myText").val(inputData + "additional");
+				//var pText=$("#myParagraph").text();
+				//alert(inputData);
+				//alert(pText);
+				
+				var myUrl = "http://localhost:23271/";
+				var methodType = "GET";
+				
+				var plane = {
+					engine: "Bentley"				
+				}
+				
+				$.ajax({
+					type: methodType,
+					url:myUrl,
+					success: function(data){
+						console.log(data);
+					},
+			    			});
+				
+				
+			});			 
+		};
+		
+		var a = "";
+		
+		
+		
+		a = "Hello";
+        var b = a;	
+
+			a + b 
+			b + a
+
+            
+        			
+		
+		
+		$(document).ready(onReady);
+		</script>
+	</body>
+</html>

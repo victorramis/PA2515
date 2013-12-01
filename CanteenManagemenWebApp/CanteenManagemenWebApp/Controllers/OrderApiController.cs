@@ -68,19 +68,30 @@ namespace CanteenManagemenWebApp.Controllers
                 {
                     user = (from o in ctx.UserProfiles orderby o.UserId where o.UserName == User.Identity.Name select o).ToList().FirstOrDefault();
                 }
+                var order = new Order()
+                {
+                    DateConfirmed = DateTime.Today,
+                    DateCreated = DateTime.Today,
+                    DateDelivered = DateTime.Today,
+                    IsConfirmed = false,
+                    IsDelivered = false,
+                    User = user
+                };
+                db.Orders.Add(order);
+                db.SaveChanges();
+
                 foreach (var i in cartItems)
                 {
-                    var order = new Order()
+                    var orderItem = new OrderItem()
                     {
-                        DateConfirmed = DateTime.Today,
-                        DateCreated = DateTime.Today,
-                        DateDelivered = DateTime.Today,
-                        IsConfirmed = false,
-                        IsDelivered = false,
-                        User = user
+                        MenuItemId = i.Id,
+                        OrderId = order.OrderId
                     };
-                    db.Orders.Add(order);
+
+                    db.OrderItems.Add(orderItem);
                 }
+
+
                 db.SaveChanges();
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, cartItems);
