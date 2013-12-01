@@ -44,6 +44,82 @@ namespace CanteenManagemenWebApp.Controllers
             }
             return View(fullOrders);
         }
+        public ActionResult IndexCustomer()
+        {
+            var user = new UserProfile();
+            using (CanteenContext ctx = new CanteenContext())
+            {
+                user = (from o in ctx.UserProfiles orderby o.UserId where o.UserName == User.Identity.Name select o).ToList().FirstOrDefault();
+            }
+            var orders = new List<Order>();
+
+            using (CanteenContext ctx = new CanteenContext())
+            {
+                orders = (from o in ctx.Orders.Include("User") orderby o.OrderId where o.User.UserId == user.UserId select o).ToList();
+            }
+            var fullOrders = new List<OrderDTO>();
+
+            foreach (var order in orders)
+            {
+                var fullOrder = new OrderDTO(order);
+                var orderItems = new List<OrderItemDTO>();
+                using (CanteenContext ctx = new CanteenContext())
+                {
+                    var orderItemsFull = (from o in ctx.OrderItems orderby o.OrderItemId where o.OrderId == fullOrder.OrderId select o).ToList();
+                    foreach (var i in orderItemsFull)
+                    {
+                        var menuItem = (from o in ctx.MenuItems orderby o.MenuItemId where o.MenuItemId == i.MenuItemId select o).ToList().FirstOrDefault();
+                        var orderX = new OrderItemDTO(i);
+                        orderX.MenuItem = menuItem;
+                        if (menuItem != null)
+                            orderItems.Add(orderX);
+                    }
+
+                }
+                fullOrder.OrderItems = orderItems;
+                if (fullOrder.OrderItems.Count() > 0)
+                    fullOrders.Add(fullOrder);
+            }
+            return View(fullOrders);
+        }
+        public ActionResult IndexCustomerActive()
+        {
+            var user = new UserProfile();
+            using (CanteenContext ctx = new CanteenContext())
+            {
+                user = (from o in ctx.UserProfiles orderby o.UserId where o.UserName == User.Identity.Name select o).ToList().FirstOrDefault();
+            }
+            var orders = new List<Order>();
+
+            using (CanteenContext ctx = new CanteenContext())
+            {
+                orders = (from o in ctx.Orders.Include("User") orderby o.OrderId where o.User.UserId == user.UserId && o.IsDelivered==false select o).ToList();
+            }
+            var fullOrders = new List<OrderDTO>();
+
+            foreach (var order in orders)
+            {
+                var fullOrder = new OrderDTO(order);
+                var orderItems = new List<OrderItemDTO>();
+                using (CanteenContext ctx = new CanteenContext())
+                {
+                    var orderItemsFull = (from o in ctx.OrderItems orderby o.OrderItemId where o.OrderId == fullOrder.OrderId select o).ToList();
+                    foreach (var i in orderItemsFull)
+                    {
+                        var menuItem = (from o in ctx.MenuItems orderby o.MenuItemId where o.MenuItemId == i.MenuItemId select o).ToList().FirstOrDefault();
+                        var orderX = new OrderItemDTO(i);
+                        orderX.MenuItem = menuItem;
+                        if (menuItem != null)
+                            orderItems.Add(orderX);
+                    }
+
+                }
+                fullOrder.OrderItems = orderItems;
+                if (fullOrder.OrderItems.Count() > 0)
+                    fullOrders.Add(fullOrder);
+            }
+            return View("IndexCustomer", fullOrders);
+        }
 
         //
         // GET: /Order/Details/5

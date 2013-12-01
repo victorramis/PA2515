@@ -68,6 +68,7 @@ namespace CanteenManagemenWebApp.Controllers
                 {
                     user = (from o in ctx.UserProfiles orderby o.UserId where o.UserName == User.Identity.Name select o).ToList().FirstOrDefault();
                 }
+                db.Entry(user).State = EntityState.Unchanged;
                 var order = new Order()
                 {
                     DateConfirmed = DateTime.Today,

@@ -310,6 +310,7 @@
     <Content Include="Views\Order\Edit.cshtml" />
     <Content Include="Views\Order\Delete.cshtml" />
     <Content Include="Views\Menu\Client.cshtml" />
+    <Content Include="Views\Order\IndexCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
