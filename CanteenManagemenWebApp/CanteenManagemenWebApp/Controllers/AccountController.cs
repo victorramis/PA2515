@@ -14,9 +14,11 @@ using CanteenManagemenWebApp.Models;
 namespace CanteenManagemenWebApp.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
+        public AccountController(): base(){
+        
+        }
         //
         // GET: /Account/Login
 

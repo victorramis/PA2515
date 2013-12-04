@@ -6,8 +6,10 @@ using System.Web.Mvc;
 
 namespace CanteenManagemenWebApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+
+        public HomeController():base(){}
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";

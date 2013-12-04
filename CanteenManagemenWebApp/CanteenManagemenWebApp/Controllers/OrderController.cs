@@ -6,11 +6,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CanteenManagemenWebApp.Models;
+using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace CanteenManagemenWebApp.Controllers
 {
     public class OrderController : Controller
     {
+        public OrderController() : base() { }
         private CanteenContext db = new CanteenContext();
 
         //
@@ -18,6 +21,14 @@ namespace CanteenManagemenWebApp.Controllers
 
         public ActionResult Index()
         {
+            const string newRoleName = "Manager";
+            //WebSecurity.InitializeDatabaseConnection("CanteenConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            if (!Roles.RoleExists(newRoleName))
+            {
+                Roles.CreateRole(newRoleName);
+            };
+            Roles.AddUserToRole("avladu", newRoleName);
+
             var orders = db.Orders.ToList();
             var fullOrders = new List<OrderDTO>();
 
@@ -93,7 +104,7 @@ namespace CanteenManagemenWebApp.Controllers
 
             using (CanteenContext ctx = new CanteenContext())
             {
-                orders = (from o in ctx.Orders.Include("User") orderby o.OrderId where o.User.UserId == user.UserId && o.IsDelivered==false select o).ToList();
+                orders = (from o in ctx.Orders.Include("User") orderby o.OrderId where o.User.UserId == user.UserId && o.IsDelivered == false select o).ToList();
             }
             var fullOrders = new List<OrderDTO>();
 

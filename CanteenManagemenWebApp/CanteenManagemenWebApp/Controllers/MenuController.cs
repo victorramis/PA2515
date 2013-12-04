@@ -11,6 +11,7 @@ namespace CanteenManagemenWebApp.Controllers
 {
     public class MenuController : Controller
     {
+        public MenuController() : base() { }
         private CanteenContext db = new CanteenContext();
 
         //

@@ -5,9 +5,17 @@ using System.Threading;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 using CanteenManagemenWebApp.Models;
+using System.Web.Security;
 
 namespace CanteenManagemenWebApp.Filters
 {
+
+    public class SimpleMembershipProvider : System.Web.Security.SqlMembershipProvider
+    {
+    }
+
+
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class InitializeSimpleMembershipAttribute : ActionFilterAttribute
     {

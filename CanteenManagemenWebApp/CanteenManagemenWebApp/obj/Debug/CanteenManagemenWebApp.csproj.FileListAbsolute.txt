@@ -47,3 +47,4 @@ C:\Users\Adrian\Documents\GitHub\PA2515\CanteenManagemenWebApp\CanteenManagemenW
 C:\Users\Adrian\Documents\GitHub\PA2515\CanteenManagemenWebApp\CanteenManagemenWebApp\obj\Debug\CanteenManagemenWebApp.csprojResolveAssemblyReference.cache
 C:\Users\Adrian\Documents\GitHub\PA2515\CanteenManagemenWebApp\CanteenManagemenWebApp\obj\Debug\CanteenManagemenWebApp.dll
 C:\Users\Adrian\Documents\GitHub\PA2515\CanteenManagemenWebApp\CanteenManagemenWebApp\obj\Debug\CanteenManagemenWebApp.pdb
+C:\Users\Adrian\Documents\GitHub\PA2515\CanteenManagemenWebApp\CanteenManagemenWebApp\bin\System.Web.Providers.dll
