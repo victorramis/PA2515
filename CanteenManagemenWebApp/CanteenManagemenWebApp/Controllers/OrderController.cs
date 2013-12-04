@@ -23,11 +23,11 @@ namespace CanteenManagemenWebApp.Controllers
         {
             const string newRoleName = "Manager";
             //WebSecurity.InitializeDatabaseConnection("CanteenConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-            if (!Roles.RoleExists(newRoleName))
-            {
-                Roles.CreateRole(newRoleName);
-            };
-            Roles.AddUserToRole("avladu", newRoleName);
+            //if (!Roles.RoleExists(newRoleName))
+            //{
+            //    Roles.CreateRole(newRoleName);
+            //};
+            //Roles.AddUserToRole("avladu", newRoleName);
 
             var orders = db.Orders.ToList();
             var fullOrders = new List<OrderDTO>();
