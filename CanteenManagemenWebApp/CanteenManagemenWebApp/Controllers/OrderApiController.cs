@@ -12,6 +12,7 @@ using CanteenManagemenWebApp.Models;
 
 namespace CanteenManagemenWebApp.Controllers
 {
+    [Authorize]
     public class OrderApiController : ApiController
     {
         private CanteenContext db = new CanteenContext();

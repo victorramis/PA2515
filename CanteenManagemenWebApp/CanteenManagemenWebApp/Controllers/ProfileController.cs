@@ -6,9 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CanteenManagemenWebApp.Models;
+using System.Web.Security;
 
 namespace CanteenManagemenWebApp.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private CanteenContext db = new CanteenContext();
@@ -50,10 +52,62 @@ namespace CanteenManagemenWebApp.Controllers
 
         //
         // GET: /Profile/Create
+        private UserProfile _getCurrentUser()
+        {
+            var userprofile = new UserProfile();
+            using (CanteenContext ctx = new CanteenContext())
+            {
+                userprofile = (from o in ctx.UserProfiles orderby o.UserId where o.UserName == User.Identity.Name select o).ToList().FirstOrDefault();
+            }
+            return userprofile;
+        }
 
+        private void _addToRole(UserProfile user, string roleName)
+        {
+            var roles = new string[] { "Employee", "Client", "Manager" };
+            if (!Roles.RoleExists(roleName))
+            {
+                Roles.CreateRole(roleName);
+            }
+            var inRoles = Roles.GetRolesForUser(user.UserName);
+            foreach (var role in roles)
+            {
+                if (inRoles.Contains(role))
+                {
+                    Roles.RemoveUserFromRole(user.UserName, role);
+                }
+            }
+            Roles.AddUserToRole(user.UserName, roleName);
+
+
+        }
         public ActionResult Create()
         {
             return View();
+        }
+
+        public ActionResult MakeMeManager()
+        {
+            var role = "Manager";
+            var user = _getCurrentUser();
+            _addToRole(user, role);
+            return View("MakeMe", user);
+        }
+
+        public ActionResult MakeMeEmployee()
+        {
+            var role = "Employee";
+            var user = _getCurrentUser();
+            _addToRole(user, role);
+            return View("MakeMe", user);
+        }
+
+        public ActionResult MakeMeClient()
+        {
+            var role = "Client";
+            var user = _getCurrentUser();
+            _addToRole(user, role);
+            return View("MakeMe", user);
         }
 
         //

@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title - My ASP.NET MVC Application</title>
     <link href="~/Images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    
+
     @Scripts.Render("~/bundles/jquery")
     <meta name="viewport" content="width=device-width" />
-    
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -25,13 +25,24 @@
                 </section>
                 <nav>
                     <ul id="menu">
+
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Menu/Manager", "Index", "Menu")</li>
-                        <li>@Html.ActionLink("Profile", "MyDetails", "Profile")</li>
-                        <li>@Html.ActionLink("Menu/Client", "ClientIndex", "Menu")</li>
-                        <li>@Html.ActionLink("Order", "Index", "Order")</li>
-                        <li>@Html.ActionLink("Cutomer/History", "IndexCustomer", "Order")</li>
-                        <li>@Html.ActionLink("Cutomer/Active", "IndexCustomerActive", "Order")</li>
+                        @if (Request.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Manager"))
+                            {   
+                            <li>@Html.ActionLink("Menu/Manager", "Index", "Menu")</li>
+                            }
+                            <li>@Html.ActionLink("Profile", "MyDetails", "Profile")</li>
+                            
+                            if (User.IsInRole("Client"))
+                            {
+                            <li>@Html.ActionLink("Menu/Client", "ClientIndex", "Menu")</li>
+                            <li>@Html.ActionLink("Order", "Index", "Order")</li>
+                            <li>@Html.ActionLink("Customer/History", "IndexCustomer", "Order")</li>
+                            <li>@Html.ActionLink("Customer/Active", "IndexCustomerActive", "Order")</li>
+                            }
+                        }
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     </ul>
                 </nav>

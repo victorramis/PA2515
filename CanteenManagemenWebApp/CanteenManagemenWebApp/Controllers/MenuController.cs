@@ -9,6 +9,7 @@ using CanteenManagemenWebApp.Models;
 
 namespace CanteenManagemenWebApp.Controllers
 {
+    [Authorize]
     public class MenuController : Controller
     {
         public MenuController() : base() { }

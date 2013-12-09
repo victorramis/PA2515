@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+using System.Web.Security;
 
 namespace CanteenManagemenWebApp.Controllers
 {
@@ -22,9 +22,19 @@ namespace CanteenManagemenWebApp.Controllers
         {
             WebSecurityInitializer.Instance.EnsureInitialize();
         }
+        public static bool IsInAnyRole(UserProfile user, params string[] roles)
+        {
+            var inRoles = Roles.GetRolesForUser(user.UserName);
+            foreach (var role in roles)
+            {
+                if (inRoles.Contains(role))
+                {
+                    return true;
+                }
+            }
 
-
-
+            return false;
+        }
     }
 
 

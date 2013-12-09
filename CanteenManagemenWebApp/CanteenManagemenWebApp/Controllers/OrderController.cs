@@ -11,6 +11,7 @@ using WebMatrix.WebData;
 
 namespace CanteenManagemenWebApp.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         public OrderController() : base() { }
@@ -18,17 +19,9 @@ namespace CanteenManagemenWebApp.Controllers
 
         //
         // GET: /Order/
-
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            const string newRoleName = "Manager";
-            //WebSecurity.InitializeDatabaseConnection("CanteenConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-            //if (!Roles.RoleExists(newRoleName))
-            //{
-            //    Roles.CreateRole(newRoleName);
-            //};
-            //Roles.AddUserToRole("avladu", newRoleName);
-
             var orders = db.Orders.ToList();
             var fullOrders = new List<OrderDTO>();
 
@@ -55,6 +48,7 @@ namespace CanteenManagemenWebApp.Controllers
             }
             return View(fullOrders);
         }
+        [Authorize]
         public ActionResult IndexCustomer()
         {
             var user = new UserProfile();
