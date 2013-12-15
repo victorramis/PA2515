@@ -19,7 +19,7 @@ namespace CanteenManagemenWebApp.Controllers
 
         //
         // GET: /Order/
-        [Authorize (Roles="Manager")]
+        [Authorize(Roles = "Manager, Employee")]
         public ActionResult Index()
         {
             var orders = db.Orders.ToList();
@@ -47,6 +47,26 @@ namespace CanteenManagemenWebApp.Controllers
                     fullOrders.Add(fullOrder);
             }
             return View(fullOrders);
+        }
+        public ActionResult IndexEmployee()
+        {
+
+
+            var orders = new List<Order>();
+            var fullOrders = new List<OrderDTO>();
+            using (CanteenContext ctx = new CanteenContext())
+            {
+                orders = (from o in ctx.Orders.Include("User") orderby o.OrderId where o.IsDelivered == false select o).ToList();
+            }
+
+            foreach (var order in orders)
+            {
+                var fullOrder = new OrderDTO(order);
+                var orderItems = new List<OrderItemDTO>();
+
+                fullOrders.Add(fullOrder);
+            }
+            return View("IndexEmployee", fullOrders);
         }
         [Authorize]
         public ActionResult IndexCustomer()
@@ -175,6 +195,15 @@ namespace CanteenManagemenWebApp.Controllers
             }
             return View(order);
         }
+        public ActionResult EditEmployee(int id = 0)
+        {
+            Order order = db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            return View(order);
+        }
 
         //
         // POST: /Order/Edit/5
@@ -187,6 +216,17 @@ namespace CanteenManagemenWebApp.Controllers
                 db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            return View(order);
+        }
+        [HttpPost]
+        public ActionResult EditEmployee(Order order)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(order).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("IndexEmployee");
             }
             return View(order);
         }

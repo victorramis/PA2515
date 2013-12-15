@@ -72,9 +72,9 @@ namespace CanteenManagemenWebApp.Controllers
                 db.Entry(user).State = EntityState.Unchanged;
                 var order = new Order()
                 {
-                    DateConfirmed = DateTime.Today,
-                    DateCreated = DateTime.Today,
-                    DateDelivered = DateTime.Today,
+                    DateConfirmed = DateTime.Now,
+                    DateCreated = DateTime.Now,
+                    DateDelivered = DateTime.Now,
                     IsConfirmed = false,
                     IsDelivered = false,
                     User = user

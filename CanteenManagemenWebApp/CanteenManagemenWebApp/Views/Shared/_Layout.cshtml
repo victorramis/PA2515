@@ -34,7 +34,13 @@
                             <li>@Html.ActionLink("Order", "Index", "Order")</li>  
                             <li>@Html.ActionLink("Menu/Manager", "Index", "Menu")</li>
                             <li>@Html.ActionLink("RegisterUser", "RegisterUser", "Account")</li>
+                            } 
+                            if (User.IsInRole("Employee"))
+                            { 
+                            <li>@Html.ActionLink("Order", "IndexEmployee", "Order")</li>  
+                            <li>@Html.ActionLink("Menu/Manager", "Index", "Menu")</li>
                             }
+                            
                             <li>@Html.ActionLink("Profile", "MyDetails", "Profile")</li>
                             
                             if (User.IsInRole("Client"))
