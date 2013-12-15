@@ -1,0 +1,42 @@
+﻿@model CanteenManagemenWebApp.Models.RegisterUserModel
+@{
+    ViewBag.Title = "RegisterUser";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Create a new account.</h2>
+</hgroup>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Registration User Form</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ConfirmPassword)
+                @Html.PasswordFor(m => m.ConfirmPassword)
+            </li>
+            @{
+    IEnumerable<SelectListItem> listItems = new List<SelectListItem> { new SelectListItem { Text = "Client", Value = "Client" }, new SelectListItem { Text = "Employee", Value = "Employee" }, new SelectListItem { Text = "Manager", Value = "Manager" } };
+            }
+            @Html.DropDownListFor(model => model.UserType, listItems, "-- Select UserType --")
+        </ol>
+        <input type="submit" value="Register" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

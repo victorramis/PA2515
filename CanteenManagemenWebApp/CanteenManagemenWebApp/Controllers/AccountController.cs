@@ -97,6 +97,42 @@ namespace CanteenManagemenWebApp.Controllers
         }
 
         //
+        //GET: /Account/RegisterUser
+        [AllowAnonymous]
+        public ActionResult RegisterUser()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/RegisterUser
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterUser(RegisterUserModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Attempt to register the user
+                try
+                {
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    Roles.AddUserToRole(model.UserName, model.UserType);
+                    
+
+                    return RedirectToAction("Index", "Profile");
+                }
+                catch (MembershipCreateUserException e)
+                {
+                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        //
         // POST: /Account/Disassociate
 
         [HttpPost]
