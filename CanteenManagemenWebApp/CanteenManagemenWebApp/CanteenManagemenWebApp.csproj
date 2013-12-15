@@ -327,6 +327,9 @@
     <Content Include="Views\Account\RegisterUser.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Order\IndexEmployee.cshtml" />
+    <Content Include="Views\Order\DetailsEmployee.cshtml" />
+    <Content Include="Views\Order\EditEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
