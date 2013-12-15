@@ -19,7 +19,7 @@ namespace CanteenManagemenWebApp.Controllers
 
         //
         // GET: /Order/
-        [AllowAnonymous]
+        [Authorize (Roles="Manager")]
         public ActionResult Index()
         {
             var orders = db.Orders.ToList();

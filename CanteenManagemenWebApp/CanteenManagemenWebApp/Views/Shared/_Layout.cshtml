@@ -30,7 +30,8 @@
                         @if (Request.IsAuthenticated)
                         {
                             if (User.IsInRole("Manager"))
-                            {   
+                            { 
+                            <li>@Html.ActionLink("Order", "Index", "Order")</li>  
                             <li>@Html.ActionLink("Menu/Manager", "Index", "Menu")</li>
                             <li>@Html.ActionLink("RegisterUser", "RegisterUser", "Account")</li>
                             }
@@ -39,7 +40,7 @@
                             if (User.IsInRole("Client"))
                             {
                             <li>@Html.ActionLink("Menu/Client", "ClientIndex", "Menu")</li>
-                            <li>@Html.ActionLink("Order", "Index", "Order")</li>
+                          
                             <li>@Html.ActionLink("Customer/History", "IndexCustomer", "Order")</li>
                             <li>@Html.ActionLink("Customer/Active", "IndexCustomerActive", "Order")</li>
                             
