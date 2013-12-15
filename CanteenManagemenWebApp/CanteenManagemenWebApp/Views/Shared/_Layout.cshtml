@@ -32,6 +32,7 @@
                             if (User.IsInRole("Manager"))
                             {   
                             <li>@Html.ActionLink("Menu/Manager", "Index", "Menu")</li>
+                            <li>@Html.ActionLink("RegisterUser", "RegisterUser", "Account")</li>
                             }
                             <li>@Html.ActionLink("Profile", "MyDetails", "Profile")</li>
                             
@@ -41,6 +42,7 @@
                             <li>@Html.ActionLink("Order", "Index", "Order")</li>
                             <li>@Html.ActionLink("Customer/History", "IndexCustomer", "Order")</li>
                             <li>@Html.ActionLink("Customer/Active", "IndexCustomerActive", "Order")</li>
+                            
                             }
                         }
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
