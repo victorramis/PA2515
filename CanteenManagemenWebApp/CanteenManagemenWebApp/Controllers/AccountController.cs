@@ -110,7 +110,8 @@ namespace CanteenManagemenWebApp.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            return View();
+            var model = new RetrievePasswordModel() { };
+            return View(model);
         }
 
         [AllowAnonymous]
@@ -151,7 +152,8 @@ namespace CanteenManagemenWebApp.Controllers
             try
             {
                 var token = WebSecurity.GeneratePasswordResetToken(model.UserName);
-                model.SuccessMessage = "You have been sent an email with the token:" + token;
+                //send email
+                model.SuccessMessage = "You have been sent an email with the token:<a href='"+Request.Url.GetLeftPart(UriPartial.Authority)+"/Account/RetrievePassword/"+token+"'>Reset Password<a/>";
             }
             catch (Exception e)
             {
