@@ -16,8 +16,10 @@ namespace CanteenManagemenWebApp.Controllers
     [Authorize]
     public class AccountController : BaseController
     {
-        public AccountController(): base(){
-        
+        public AccountController()
+            : base()
+        {
+
         }
         //
         // GET: /Account/Login
@@ -104,6 +106,59 @@ namespace CanteenManagemenWebApp.Controllers
             return View();
         }
 
+        //GET: /Account/RegisterUser
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult RetrievePassword(String id)
+        {
+            var model = new RetrievePasswordFromTokenModel()
+            {
+                Token = id
+            };
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RetrievePassword(RetrievePasswordFromTokenModel model)
+        {
+            try
+            {
+                if (WebSecurity.ResetPassword(model.Token, model.Password))
+                    return View(model);
+                else
+                    throw new Exception("Error reseting the password");
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error reseting the password");
+            }
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(RetrievePasswordModel model)
+        {
+            try
+            {
+                var token = WebSecurity.GeneratePasswordResetToken(model.UserName);
+                model.SuccessMessage = "You have been sent an email with the token:" + token;
+            }
+            catch (Exception e)
+            {
+                model.SuccessMessage = "User does not exist.";
+            }
+            return View(model);
+        }
         //
         // POST: /Account/RegisterUser
 
@@ -118,7 +173,7 @@ namespace CanteenManagemenWebApp.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     Roles.AddUserToRole(model.UserName, model.UserType);
-                    
+
 
                     return RedirectToAction("Index", "Profile");
                 }
