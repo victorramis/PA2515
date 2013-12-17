@@ -330,6 +330,7 @@
     <Content Include="Views\Order\IndexEmployee.cshtml" />
     <Content Include="Views\Order\DetailsEmployee.cshtml" />
     <Content Include="Views\Order\EditEmployee.cshtml" />
+    <Content Include="Views\Account\ForgottenPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
