@@ -28,7 +28,7 @@
         </th>
          <th>
             @Html.DisplayNameFor(model => model.Blocked)
-
+            
         </th>
         <th></th>
     </tr>
@@ -50,6 +50,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.Email)
         </td>
+
+         <td>
+            @Html.DisplayFor(modelItem => item.Blocked)
+        </td>
+
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
             @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
