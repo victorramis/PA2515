@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Index</h2> 
 
 <table>
     <tr>
@@ -44,7 +44,10 @@
             @Html.DisplayFor(modelItem => item.IsDelivered)
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditEmployee", new { id=item.OrderId }) 
+            @Html.ActionLink("View", "EditEmployee", new { id=item.OrderId }) 
+        </td>
+        <td>
+            @Html.ActionLink("Block User", "BlockUser", new { id=item.User.UserId }) 
         </td>
     </tr>
 }

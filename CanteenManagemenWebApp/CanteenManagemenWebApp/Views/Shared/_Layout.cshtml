@@ -23,7 +23,7 @@
                 <section id="login">
                     @Html.Partial("_LoginPartial")
                 </section>
-                <nav>
+                <nav> 
                     <ul id="menu">
 
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
@@ -37,8 +37,7 @@
                             } 
                             if (User.IsInRole("Employee"))
                             { 
-                            <li>@Html.ActionLink("Order", "IndexEmployee", "Order")</li>  
-                            <li>@Html.ActionLink("Menu/Manager", "Index", "Menu")</li>
+                            <li>@Html.ActionLink("Order", "IndexEmployee", "Order")</li> 
                             }
                             
                             <li>@Html.ActionLink("Profile", "MyDetails", "Profile")</li>

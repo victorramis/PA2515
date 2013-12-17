@@ -48,7 +48,7 @@ namespace CanteenManagemenWebApp.Controllers
             }
             return View(fullOrders);
         }
-        public ActionResult IndexEmployee()
+        public ActionResult IndexEmployee() 
         {
 
 
@@ -56,15 +56,15 @@ namespace CanteenManagemenWebApp.Controllers
             var fullOrders = new List<OrderDTO>();
             using (CanteenContext ctx = new CanteenContext())
             {
-                orders = (from o in ctx.Orders.Include("User") orderby o.OrderId where o.IsDelivered == false select o).ToList();
+                orders = (from o in ctx.Orders.Include("User") orderby o.OrderId where o.IsDelivered == false && o.User.Blocked == false select o).ToList();
             }
 
             foreach (var order in orders)
             {
                 var fullOrder = new OrderDTO(order);
                 var orderItems = new List<OrderItemDTO>();
-
-                fullOrders.Add(fullOrder);
+                if (order.User != null)
+                    fullOrders.Add(fullOrder);
             }
             return View("IndexEmployee", fullOrders);
         }
@@ -242,6 +242,19 @@ namespace CanteenManagemenWebApp.Controllers
                 return HttpNotFound();
             }
             return View(order);
+        }
+
+        public ActionResult BlockUser(int id = 0)
+        {
+            UserProfile user = db.UserProfiles.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            user.Blocked = true;
+            db.SaveChanges();
+
+            return RedirectToAction("IndexEmployee");
         }
 
         //

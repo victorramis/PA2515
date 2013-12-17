@@ -9,7 +9,7 @@ using System.Web.Security;
 namespace CanteenManagemenWebApp.Models
 {
 
-    [Table("UserProfile")]
+    [Table("UserProfile")] 
     public class UserProfile
     {
         [Key]
@@ -19,6 +19,7 @@ namespace CanteenManagemenWebApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
+        public bool Blocked { get; set; }
     }
 
     public class RegisterExternalLoginModel
