@@ -1,0 +1,25 @@
+﻿@model CanteenManagemenWebApp.Models.Statistics
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Statistics</h2>
+
+<fieldset>
+    <legend>Statistics</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TotalNumberOfUsers)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TotalNumberOfUsers)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TotalNumberOfOrders)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TotalNumberOfOrders)
+    </div>
+</fieldset>
