@@ -1,0 +1,6 @@
+General Facts
+
+1. Testing has been performed in Chrome and Mozilla with version number 31.0.1650.57 and 19.0 respectively but it    should support older versions.
+
+2. Cookies testing is only done for login.
+
