@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CanteenManagemenWebApp.Models.UserProfile>
+﻿@model IEnumerable<CanteenManagemenWebApp.Models.UserProfileDTO>
 
 @{
     ViewBag.Title = "Index";
@@ -30,6 +30,10 @@
             @Html.DisplayNameFor(model => model.Blocked)
             
         </th>
+         <th>
+            @Html.DisplayNameFor(model => model.RoleName)
+            
+        </th>
         <th></th>
     </tr>
 
@@ -54,7 +58,9 @@
          <td>
             @Html.DisplayFor(modelItem => item.Blocked)
         </td>
-
+         <td>
+            @Html.DisplayFor(modelItem => item.RoleName)
+        </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
             @Html.ActionLink("Details", "Details", new { id=item.UserId }) |

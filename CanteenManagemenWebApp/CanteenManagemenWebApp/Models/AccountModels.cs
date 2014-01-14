@@ -21,8 +21,32 @@ namespace CanteenManagemenWebApp.Models
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public bool Blocked { get; set; }
+       
     }
+    public class UserProfileDTO
+    {
+        public UserProfileDTO(UserProfile user){
+            this.UserId = user.UserId;
+            this.UserName = user.UserName;
+            this.FirstName = user.FirstName;
+            this.LastName = user.LastName;
+            this.PhoneNumber = user.PhoneNumber;
+            this.Email = user.Email;
+            this.Blocked = user.Blocked;
+            
 
+        }
+            
+       
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public bool Blocked { get; set; }
+        public string RoleName { get; set; }
+    }
     public class RegisterExternalLoginModel
     {
         [Required]

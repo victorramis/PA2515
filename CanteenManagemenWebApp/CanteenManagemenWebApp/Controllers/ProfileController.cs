@@ -20,7 +20,18 @@ namespace CanteenManagemenWebApp.Controllers
 
         public ActionResult Index()
         {
-            return View(db.UserProfiles.ToList());
+
+            var users = db.UserProfiles.ToList();
+            var usersWithRoles = new List<UserProfileDTO>();
+            foreach ( var item in users ){
+                var userProfileDTO = new UserProfileDTO(item);
+                userProfileDTO.RoleName = Roles.GetRolesForUser(item.UserName).FirstOrDefault(); 
+
+                usersWithRoles.Add(userProfileDTO);
+            }
+             
+
+            return View(usersWithRoles);
         }
 
         //
@@ -48,6 +59,27 @@ namespace CanteenManagemenWebApp.Controllers
                 return HttpNotFound();
             }
             return View(userprofile);
+        }
+        public ActionResult IndexCustomer()
+        {
+            var users = new List<UserProfile>();
+            using (CanteenContext ctx = new CanteenContext())
+            {
+                var usernames = Roles.GetUsersInRole("Client"); 
+                 foreach (var user in usernames)
+                { 
+                
+                var userprofile = (from o in ctx.UserProfiles where o.UserName == user select o).ToList().FirstOrDefault();
+                if (userprofile != null) {
+                    users.Add(userprofile);
+                }
+                }
+
+               
+
+            }
+            return View("Index",users);
+            
         }
 
         //
