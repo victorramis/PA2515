@@ -197,12 +197,46 @@ namespace CanteenManagemenWebApp.Controllers
         }
         public ActionResult EditEmployee(int id = 0)
         {
+            Order order = db.Orders.Find(id);   
+            
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            var fullOrder = new OrderDTO(order);
+            
+            var orderItems = new List<OrderItemDTO>();
+            var orderItemsSorted = new List<OrderItemDTO>();
+            using (CanteenContext ctx = new CanteenContext())
+            {
+                var orderItemsFull = (from o in ctx.OrderItems orderby o.OrderItemId where o.OrderId == fullOrder.OrderId select o).ToList();
+                foreach (var i in orderItemsFull)
+                {
+                    var menuItem = (from o in ctx.MenuItems orderby o.MenuItemId where o.MenuItemId == i.MenuItemId select o).ToList().FirstOrDefault();
+                    var orderX = new OrderItemDTO(i);
+                    orderX.MenuItem = menuItem;
+                    if (menuItem != null)
+                    {
+                        orderItems.Add(orderX); 
+                    }
+                }
+
+            }
+            if (orderItems.Count > 0)
+            {
+
+                fullOrder.OrderItems = orderItems.OrderBy(o => o.MenuItemId).ToList();
+                
+            }   
+            return View(fullOrder);
+            /* orig
             Order order = db.Orders.Find(id);
             if (order == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+       
+            return View(order);*/
         }
 
         //
@@ -224,6 +258,27 @@ namespace CanteenManagemenWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var fullOrder = db.Orders.Find(order.OrderId);
+                if (order.IsConfirmed == true && fullOrder.IsConfirmed == false)
+                {
+                    order.DateConfirmed = DateTime.Now;
+
+                }
+                else
+                {
+                    order.DateConfirmed = fullOrder.DateConfirmed; 
+                }
+                if (order.IsDelivered == true && fullOrder.IsDelivered == false)
+                {
+                    order.DateDelivered = DateTime.Now;
+
+                }
+                else
+                {
+                    order.DateDelivered = fullOrder.DateDelivered;
+                }
+                order.DateCreated = fullOrder.DateCreated;
+                db.Entry(fullOrder).State = EntityState.Detached;
                 db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("IndexEmployee");

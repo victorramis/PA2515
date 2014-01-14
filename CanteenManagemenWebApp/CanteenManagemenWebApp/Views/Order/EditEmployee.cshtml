@@ -1,12 +1,14 @@
-﻿@model CanteenManagemenWebApp.Models.Order
+﻿@model CanteenManagemenWebApp.Models.OrderDTO
+
 
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>View</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
@@ -18,26 +20,26 @@
             @Html.LabelFor(model => model.DateCreated)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.DateCreated)
+            @Html.DisplayFor(model => model.DateCreated)
             @Html.ValidationMessageFor(model => model.DateCreated)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DateDelivered)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateDelivered)
-            @Html.ValidationMessageFor(model => model.DateDelivered)
         </div>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.DateConfirmed)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.DateConfirmed)
+            @Html.DisplayFor(model => model.DateConfirmed)
             @Html.ValidationMessageFor(model => model.DateConfirmed)
         </div>
 
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateDelivered)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.DateDelivered)
+            @Html.ValidationMessageFor(model => model.DateDelivered)
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.IsConfirmed)
         </div>
@@ -52,6 +54,21 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.IsDelivered)
             @Html.ValidationMessageFor(model => model.IsDelivered)
+        </div>
+
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        @foreach (var item in Model.OrderItems)
+                        {   
+                            @Html.DisplayFor(model => item.MenuItem.Name) 
+                            @Html.DisplayFor(model => item.Quantity) 
+                            <img src="@item.MenuItem.ImageUrl" height="50px"/>
+                        }
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <p>

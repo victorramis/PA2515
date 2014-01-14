@@ -20,9 +20,7 @@
         <th>
             @Html.DisplayNameFor(model => model.IsConfirmed)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsDelivered)
-        </th>
+        
         <th></th>
     </tr>
 
@@ -39,9 +37,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsConfirmed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsDelivered)
         </td>
         <td>
             @Html.ActionLink("View", "EditEmployee", new { id=item.OrderId }) 
