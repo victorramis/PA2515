@@ -32,9 +32,13 @@
                             if (User.IsInRole("Manager"))
                             { 
                             <li>@Html.ActionLink("Order", "Index", "Order")</li>  
-                            <li>@Html.ActionLink("Menu/Manager", "Index", "Menu")</li>
+                            <li>@Html.ActionLink("Menu", "Index", "Menu")</li>
                             <li>@Html.ActionLink("RegisterUser", "RegisterUser", "Account")</li>
                             <li>@Html.ActionLink("Statistics", "Index", "Statistics")</li>
+                            <li>@Html.ActionLink("Users","Index", "Profile" )</li>
+                            @*
+                            <a href="Profile/Index">User</a>*@
+                            
                             } 
                             if (User.IsInRole("Employee"))
                             { 
@@ -42,6 +46,7 @@
                             }
                             
                             <li>@Html.ActionLink("Profile", "MyDetails", "Profile")</li>
+                             <li>@Html.ActionLink("Customer","indexcustomer","Profile"  )</li>
                             
                             if (User.IsInRole("Client"))
                             {

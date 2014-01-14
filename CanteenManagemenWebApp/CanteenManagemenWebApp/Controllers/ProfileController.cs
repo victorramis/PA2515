@@ -63,6 +63,7 @@ namespace CanteenManagemenWebApp.Controllers
         public ActionResult IndexCustomer()
         {
             var users = new List<UserProfile>();
+            var usersDTO = new List<UserProfileDTO>();
             using (CanteenContext ctx = new CanteenContext())
             {
                 var usernames = Roles.GetUsersInRole("Client"); 
@@ -71,14 +72,15 @@ namespace CanteenManagemenWebApp.Controllers
                 
                 var userprofile = (from o in ctx.UserProfiles where o.UserName == user select o).ToList().FirstOrDefault();
                 if (userprofile != null) {
-                    users.Add(userprofile);
+                    usersDTO.Add(new UserProfileDTO( userprofile));
                 }
                 }
+
 
                
 
             }
-            return View("Index",users);
+            return View("Index",usersDTO);
             
         }
 
