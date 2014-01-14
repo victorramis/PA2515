@@ -16,6 +16,8 @@ namespace CanteenManagemenWebApp.Models
         public int MenuItemId { get; set; }
         [Required]
         public int OrderId { get; set; }
+        [Required]
+        public int Quantity { get; set; }
     }
     public class OrderItemDTO
     {
@@ -24,11 +26,12 @@ namespace CanteenManagemenWebApp.Models
             this.MenuItemId = order.MenuItemId;
             this.OrderItemId = order.OrderItemId;
             this.OrderId = order.OrderId;
+            this.Quantity = order.Quantity; 
         }
         public int OrderItemId { get; set; }
         public int MenuItemId { get; set; }
         public int OrderId { get; set; }
         public MenuItem MenuItem{get;set;}
-
+        public int Quantity { get; set; }
     }
 }
