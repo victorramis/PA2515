@@ -39,13 +39,27 @@ namespace CanteenManagemenWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            var userprofile = new UserProfile();
+            using (CanteenContext ctx = new CanteenContext())
             {
-                return RedirectToLocal(returnUrl);
+                userprofile = (from o in ctx.UserProfiles orderby o.UserId where o.UserName == model.UserName && o.Blocked==false select o).ToList().FirstOrDefault();
             }
+            if (userprofile == null)
+            {
+                ModelState.AddModelError("", "You have been blocked.");
+            }
+            else
+            {
 
-            // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+
+                if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+                {
+                    return RedirectToLocal(returnUrl);
+                }
+
+                // If we got this far, something failed, redisplay form
+                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            }
             return View(model);
         }
 
