@@ -54,17 +54,7 @@
             @Html.ValidationMessageFor(model => model.Email)
         </div>
         
-         <div class="editor-label">
-            @Html.LabelFor(model => model.Blocked)
-        </div>
-        <div class="editor-field">
-
-            @Html.EditorFor(model => model.Blocked)
-
-
-            @Html.ValidationMessageFor(model => model.Blocked)
-
-        </div>
+        
         <p>
             <input type="submit" value="Save" />
         </p>
@@ -72,7 +62,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index","Home")
 </div>
 
 @section Scripts {
