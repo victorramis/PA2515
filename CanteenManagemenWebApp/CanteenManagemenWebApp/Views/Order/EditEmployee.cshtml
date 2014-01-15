@@ -23,23 +23,23 @@
             @Html.DisplayFor(model => model.DateCreated)
             @Html.ValidationMessageFor(model => model.DateCreated)
         </div>
-
+        @if(Model.IsConfirmed){
         <div class="editor-label">
             @Html.LabelFor(model => model.DateConfirmed)
         </div>
         <div class="editor-field">
             @Html.DisplayFor(model => model.DateConfirmed)
             @Html.ValidationMessageFor(model => model.DateConfirmed)
-        </div>
+        </div>}
 
-
+        @if(Model.IsDelivered){
         <div class="editor-label">
             @Html.LabelFor(model => model.DateDelivered)
         </div>
         <div class="editor-field">
             @Html.DisplayFor(model => model.DateDelivered)
             @Html.ValidationMessageFor(model => model.DateDelivered)
-        </div>
+        </div>}
         <div class="editor-label">
             @Html.LabelFor(model => model.IsConfirmed)
         </div>
