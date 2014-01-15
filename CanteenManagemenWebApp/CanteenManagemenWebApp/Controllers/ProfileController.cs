@@ -172,6 +172,15 @@ namespace CanteenManagemenWebApp.Controllers
             }
             return View(userprofile);
         }
+        public ActionResult Block(int id = 0)
+        {
+            UserProfile userprofile = db.UserProfiles.Find(id);
+            if (userprofile == null)
+            {
+                return HttpNotFound();
+            }
+            return View(userprofile);
+        }
 
         //
         // POST: /Profile/Edit/5
@@ -184,6 +193,17 @@ namespace CanteenManagemenWebApp.Controllers
                 db.Entry(userprofile).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("MyDetails");
+            }
+            return View(userprofile);
+        }
+        [HttpPost]
+        public ActionResult Block(UserProfile userprofile)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(userprofile).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("indexcustomer");
             }
             return View(userprofile);
         }
