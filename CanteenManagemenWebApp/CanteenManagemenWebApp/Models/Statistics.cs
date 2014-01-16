@@ -14,5 +14,9 @@ namespace CanteenManagemenWebApp.Models
         public int Id { get; set; }
         public int TotalNumberOfUsers { get; set; }
         public int TotalNumberOfOrders { get; set; }
+        public int TotalSalesToday { get; set; }
+        public int TotalSaleValueToday { get; set; }
+        public int TotalSalesThisMonth { get; set; }
+        public int TotalSaleValueThisMonth { get; set; } 
     }
 }
