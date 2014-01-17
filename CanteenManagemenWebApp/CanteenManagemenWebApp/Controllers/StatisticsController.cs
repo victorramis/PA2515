@@ -32,60 +32,62 @@ namespace CanteenManagemenWebApp.Controllers
                 statistics.TotalSalesToday = (from o in ctx.Orders where o.IsDelivered == true && o.DateDelivered.Day == today.Day select o).Count();
                 statistics.TotalSalesThisMonth = (from o in ctx.Orders where o.IsDelivered == true && o.DateDelivered.Month == today.Month select o).Count();
 
-               // dayOrders = (from o in ctx.Orders where o.IsDelivered == true && o.DateDelivered.Day == today.Day select o).ToList();
-               // monthOrders = (from o in ctx.Orders where o.IsDelivered == true && o.DateDelivered.Month == today.Month select o).ToList();
-                
-               // var orderItemsDay = new List<OrderItemDTO>();
-               // var orderItemsMonth = new List<OrderItemDTO>();
-               // var orderItemsDayFull = new List<OrderItem>();
-               // var orderItemsMonthFull = new List<OrderItem>(); 
+                var dayOrders = (from o in ctx.Orders where o.IsDelivered == true && o.DateDelivered.Day == today.Day select o).ToList();
+                var monthOrders = (from o in ctx.Orders where o.IsDelivered == true && o.DateDelivered.Month == today.Month select o).ToList();
 
-               // foreach(var i in dayOrders)
-               // {
-               //     fullOrderDay.Add(new OrderDTO(i)); 
-               // }
-               // foreach(var i in monthOrders)
-               // {
-               //     fullOrderDay.Add(new OrderDTO(i)); 
-               // }
-                
-               // foreach(var i in fullOrderDay)
-               // {
-               //     orderItemsDayFull = (from o in ctx.OrderItems orderby o.OrderItemId where o.OrderId == i.OrderId select o).ToList();    
-               // }
-               // foreach(var i in fullOrderMonth)
-               // {
-               //     orderItemsMonthFull = (from o in ctx.OrderItems orderby o.OrderItemId where o.OrderId == i.OrderId select o).ToList();    
-               // }
+                var orderItemsDay = new List<OrderItemDTO>();
+                var orderItemsMonth = new List<OrderItemDTO>();
+                var orderItemsDayFull = new List<OrderItem>();
+                var orderItemsMonthFull = new List<OrderItem>();
+                var fullOrderDay = new List<OrderDTO>();
+                var fullOrderMonth = new List<OrderDTO>();
 
-               // foreach(var i in orderItemsDayFull) 
-               // {
-               //     var menuItem = (from o in ctx.MenuItems orderby o.MenuItemId where o.MenuItemId == i.MenuItemId select o).ToList().FirstOrDefault();
-               //     var orderX = new OrderItemDTO(i);
-               //     orderX.MenuItem = menuItem;
-               //     if (menuItem != null)
-               //     {
-               //         orderItemsDay.Add(orderX); 
-               //     }
-               // }
-               // foreach(var i in orderItemsMonthFull) 
-               // {
-               //     var menuItem = (from o in ctx.MenuItems orderby o.MenuItemId where o.MenuItemId == i.MenuItemId select o).ToList().FirstOrDefault();
-               //     var orderX = new OrderItemDTO(i);
-               //     orderX.MenuItem = menuItem;
-               //     if (menuItem != null)
-               //     {
-               //         orderItemsMonth.Add(orderX); 
-               //     }
-               // }
-                
-               //if(orderItemsDay.Count > 0)
-               //{
-               //    foreach(var i in orderItemsDay)
-               //    {
-                     
-               //    }
-               //}
+                foreach (var i in dayOrders)
+                {
+                    fullOrderDay.Add(new OrderDTO(i));
+                }
+                foreach (var i in monthOrders)
+                {
+                    fullOrderMonth.Add(new OrderDTO(i));
+                }
+
+                foreach (var i in fullOrderDay)
+                {
+                    orderItemsDayFull = (from o in ctx.OrderItems orderby o.OrderItemId where o.OrderId == i.OrderId select o).ToList();
+                }
+                foreach (var i in fullOrderMonth)
+                {
+                    orderItemsMonthFull = (from o in ctx.OrderItems orderby o.OrderItemId where o.OrderId == i.OrderId select o).ToList();
+                }
+
+                foreach (var i in orderItemsDayFull)
+                {
+                    var menuItem = (from o in ctx.MenuItems orderby o.MenuItemId where o.MenuItemId == i.MenuItemId select o).ToList().FirstOrDefault();
+                    var orderX = new OrderItemDTO(i);
+                    orderX.MenuItem = menuItem;
+                    if (menuItem != null)
+                    {
+                        orderItemsDay.Add(orderX);
+                    }
+                }
+                foreach (var i in orderItemsMonthFull)
+                {
+                    var menuItem = (from o in ctx.MenuItems orderby o.MenuItemId where o.MenuItemId == i.MenuItemId select o).ToList().FirstOrDefault();
+                    var orderX = new OrderItemDTO(i);
+                    orderX.MenuItem = menuItem;
+                    if (menuItem != null)
+                    {
+                        orderItemsMonth.Add(orderX);
+                    }
+                }
+
+                if (orderItemsDay.Count > 0)
+                {
+                    foreach (var i in orderItemsDay)
+                    {
+
+                    }
+                }
 
 
 

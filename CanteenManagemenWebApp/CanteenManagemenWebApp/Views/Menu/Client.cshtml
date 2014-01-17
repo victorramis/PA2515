@@ -27,7 +27,7 @@
         @foreach (var item in Model)
         {
             <tr data-id="@Html.DisplayFor(modelItem => item.MenuItemId)">
-                <td>
+                <td id="name-@item.MenuItemId">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
@@ -40,7 +40,7 @@
                     @Html.DisplayFor(modelItem => item.IsAvailable)
                 </td>
                 <td>
-                    <img class="add-item" src="~/Images/Plussign.png" alt="Add to cart" />
+                    <img class="add-item" id="plus-@item.MenuItemId"src="~/Images/Plussign.png" alt="Add to cart" />
                 </td>
             </tr>
         }
@@ -49,9 +49,8 @@
 </div>
 <div class="cart" style="">
     <h2>Cart</h2>
-    <ol id="cart-list">
-    </ol>
-    <input type="submit" value="Checkout" id="checkout"/>
+    <ol id="cart-list"></ol>
+    <input type="submit" value="Checkout" id="checkout" />
 </div>
 
 
@@ -62,15 +61,28 @@
 
         var addItemTocart = function (item) {
             console.log(item);
-            var itemName = item.parent().parent().children(":first").text();
-            var itemId = item.parent().parent().attr("data-id");
-
-            cartItems.push({
-                Id: itemId,
-                Name: itemName
-            });
-
-            cart.prepend("<li>" + itemName + "</li>");
+            var itemId = item.attr("id").replace("plus-", "");
+            var itemName = $("#name-" + itemId).text();
+            var found = false;
+            for (var itemToCheck in cartItems) {
+                if (cartItems[itemToCheck].Id == itemId) {
+                    cartItems[itemToCheck].Quantity = cartItems[itemToCheck].Quantity + 1;
+                    var str = $("#crt-" + itemId).html()
+                    var str = str.replace("(" + (cartItems[itemToCheck].Quantity - 1).toString() + ")", "(" + cartItems[itemToCheck].Quantity.toString() + ")")
+                    $("#crt-" + itemId).html(str)
+                    //$("#crt-" + itemId).html($("#crt-" + itemId).html().replace("(" + (item.Quantity - 1) + ")", "(" + item.Quantity + ")"))
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                cartItems.push({
+                    Id: itemId,
+                    Name: itemName,
+                    Quantity: 1
+                });
+                cart.prepend("<li id='crt-"+itemId+"'>" + itemName + "(1)</li>");
+            }
         };
 
         var saveOrder = function (cartItems, onSuccess) {
@@ -107,4 +119,3 @@
         });
     });
 </script>
-

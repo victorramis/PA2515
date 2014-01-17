@@ -77,6 +77,7 @@ namespace CanteenManagemenWebApp.Controllers
                     DateDelivered = DateTime.Now,
                     IsConfirmed = false,
                     IsDelivered = false,
+
                     User = user
                 };
                 db.Orders.Add(order);
@@ -87,7 +88,8 @@ namespace CanteenManagemenWebApp.Controllers
                     var orderItem = new OrderItem()
                     {
                         MenuItemId = i.Id,
-                        OrderId = order.OrderId
+                        OrderId = order.OrderId,
+                        Quantity = i.Quantity
                     };
 
                     db.OrderItems.Add(orderItem);

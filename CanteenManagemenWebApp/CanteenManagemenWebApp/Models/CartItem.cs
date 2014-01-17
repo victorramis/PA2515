@@ -15,5 +15,7 @@ namespace CanteenManagemenWebApp.Models
         public int Id { get; set; }
         [DataMember(IsRequired = true)]
         public string Name { get; set; }
+        [DataMember(IsRequired = true)]
+        public int Quantity { get; set; }
     }
 }
