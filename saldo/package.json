@@ -1,0 +1,73 @@
+{
+  "name": "saldo",
+  "productName": "Saldo",
+  "version": "0.1.0",
+  "description": "Saldo – privatekonomi och pensionsplanering för macOS",
+  "private": true,
+  "main": "./out/main/index.js",
+  "author": "Victor",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "dev:web": "vite --config vite.web.config.ts",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "test": "vitest run",
+    "dist:mac": "electron-vite build && electron-builder --mac"
+  },
+  "build": {
+    "appId": "se.saldo.app",
+    "productName": "Saldo",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "out/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.finance",
+      "target": [
+        "dmg"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/d3-hierarchy": "^3.1.7",
+    "@types/d3-sankey": "^0.12.4",
+    "@types/node": "^22.10.2",
+    "@types/papaparse": "^5.3.15",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.20",
+    "electron": "^38.8.6",
+    "electron-builder": "^26.0.12",
+    "electron-vite": "^4.0.1",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.8.3",
+    "vite": "^6.4.6",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.4",
+    "@radix-ui/react-dialog": "^1.1.4",
+    "@radix-ui/react-switch": "^1.1.2",
+    "@radix-ui/react-tooltip": "^1.1.6",
+    "@tanstack/react-virtual": "^3.11.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.0.4",
+    "d3-hierarchy": "^3.1.2",
+    "d3-sankey": "^0.12.3",
+    "papaparse": "^5.4.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "recharts": "^2.15.0",
+    "sonner": "^1.7.1",
+    "tailwind-merge": "^2.6.0",
+    "xlsx": "^0.18.5",
+    "zustand": "^5.0.2"
+  }
+}
