@@ -9,7 +9,8 @@ import { formatNumber, isoDate, monthKey, parseAmount, shiftMonth } from '@/lib/
 import { useCats, useMoney, useWidth } from '@/lib/hooks'
 import { KOMMUNER, PENSION_NAMES, simulate, warnings, type Scenario, type SimInput, type SimRow } from '@/lib/pension-sim'
 import { useData, useStore } from '@/store'
-import { latestPension, savingsAccounts } from './PensionOversikt'
+import { savingsAccounts } from './PensionOversikt'
+import { pensionBuckets } from '@/lib/pension-map'
 
 const PC = ['#2E7D8C', '#3E95CF', '#D9822B', '#8A5CC2']
 const WEALTH: [keyof SimRow, string, string][] = [
@@ -43,17 +44,16 @@ export function PensionPlanera() {
   const [tableView, setTableView] = useState<'hushall' | 'pension'>('hushall')
   const A = d.scenarios[act]
 
-  const p = latestPension(d)
   const age = new Date().getFullYear() - d.settings.birthYear
   const inp: SimInput = useMemo(
     () => ({
       birthYear: d.settings.birthYear,
       currentAge: age,
-      capital: ['inkomst', 'premie', 'itp', 'ips'].map((id) => p.last?.values[id]?.value ?? 0),
+      capital: pensionBuckets(d),
       churchFee: d.settings.churchFee,
       stateTaxThreshold: d.settings.stateTaxThreshold
     }),
-    [d.settings, age, p.last]
+    [d, age]
   )
   const S = useMemo(() => simulate(A, inp), [A, inp])
   const rows = S.rows
@@ -93,7 +93,7 @@ export function PensionPlanera() {
   const marks = [
     { n: `Försäljning ${A.saleAge} år · ${mn(A.salePrice)}`, x: P(A.saleAge), top: 0, c: '#8A5CC2' },
     { n: `Uttag bolag ${A.hFrom}–${A.hTo}`, x: P(A.hFrom), top: 0, c: '#B5932A' },
-    { n: `ITP ${A.p[2].start} · IPS ${A.p[3].start}`, x: P(Math.min(A.p[2].start, A.p[3].start)), top: 0, c: '#D9822B' },
+    { n: `Tjänste ${A.p[2].start} · Privat ${A.p[3].start}`, x: P(Math.min(A.p[2].start, A.p[3].start)), top: 0, c: '#D9822B' },
     { n: `Allmän pension ${A.p[0].start}`, x: P(A.p[0].start), top: 0, c: '#2E7D8C' }
   ].sort((a, b) => a.x - b.x)
   const rowEnd: number[] = []

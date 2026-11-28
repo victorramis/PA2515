@@ -88,7 +88,7 @@ export interface SimResult {
 
 export const KOMMUNER: Record<string, number> = { Vallentuna: 30.98, Täby: 29.63, Stockholm: 30.55, Norrtälje: 32.83, Danderyd: 30.08, Sollentuna: 31.2 }
 
-export const PENSION_NAMES = ['Inkomstpension', 'Premiepension', 'Tjänstepension ITP 1', 'Privat pension (IPS)']
+export const PENSION_NAMES = ['Inkomstpension', 'Premiepension', 'Tjänstepension', 'Privat pension (IPS)']
 
 export function simulate(A: Scenario, inp: SimInput): SimResult {
   const start = inp.currentAge
@@ -254,8 +254,8 @@ export function warnings(A: Scenario, S: SimResult, inp: SimInput, kr: (n: numbe
     if (A.p[j] && A.p[j].start < 63)
       W.push({ t: `${PENSION_NAMES[j]} från ${A.p[j].start} år går inte.`, b: `Allmän pension kan tas ut tidigast från 63 år i dag, för dig född ${inp.birthYear} troligen senare.`, level: 'warn' })
   })
-  if (A.p[2] && A.p[2].start < 55) W.push({ t: 'Tjänstepension före 55 år går inte.', b: 'ITP 1 kan tidigast betalas ut från 55 år.', level: 'warn' })
-  if (A.p[2] && A.p[2].yrs && A.p[2].yrs < 5) W.push({ t: 'ITP 1 kräver minst 5 års uttag.', b: '', level: 'warn' })
+  if (A.p[2] && A.p[2].start < 55) W.push({ t: 'Tjänstepension före 55 år går inte.', b: 'ITP och de flesta tjänstepensioner kan tidigast betalas ut från 55 år.', level: 'warn' })
+  if (A.p[2] && A.p[2].yrs && A.p[2].yrs < 5) W.push({ t: 'Tjänstepension kräver minst 5 års uttag.', b: '', level: 'warn' })
   if (A.p[3] && A.p[3].start < 55) W.push({ t: 'IPS före 55 år går inte.', b: 'Privat pensionssparande kan tidigast betalas ut från 55 år.', level: 'warn' })
   if (A.p[3] && A.p[3].yrs && A.p[3].yrs < 5) W.push({ t: 'IPS måste betalas ut under minst 5 år.', b: '', level: 'warn' })
   const firstPen = Math.min(...A.p.map((p) => p.start))

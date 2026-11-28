@@ -53,12 +53,25 @@ src/renderer/src/
 
 Data sparas lokalt i `userData/saldo-data.bin`, krypterad med Electrons `safeStorage` (Keychain på macOS). I webbläsarläget används `localStorage`.
 
+## Hämta från minPension (riktig avläsning)
+
+minPension har inget öppet API, så Saldo läser det du själv ser när du är inloggad (`src/main/minpension.ts`, tolkning i `src/shared/minpension.ts`):
+
+1. *Öppna minPension* öppnar www.minpension.se i ett eget fönster med en tillfällig session som raderas när fönstret stängs. Du loggar in med BankID direkt hos minPension. `bankid://`-länkar öppnas i BankID-appen.
+2. När dina pensioner visas klickar du *Läs av sidan* i Saldo. Saldo läser då
+   - JSON-svaren som minPensions webbapp har hämtat (fångas i minnet via DevTools-protokollet, bara från `*.minpension.se`), och
+   - den synliga sidan: textblocket runt varje belopp (namn, bolag, värde, värdedatum). Månadsprognoser och summeringsrader hoppas över.
+3. *Det här hittade vi* visar raderna matchade mot dina sparade pensioner, nya pensioner markerade, och kontrollerar mot sidans ”Totalt” om det finns. Inget sparas förrän du trycker *Spara*.
+
+Tolkningen bygger inte på exakta CSS-klasser, men den är skriven utan tillgång till en inloggad minPension-sida. Om något saknas eller blir fel: tryck *Spara felsökningsfil* (filen innehåller dina pensionsuppgifter, dela den bara med någon du litar på) och justera `parseBlock`/`parseJson` efter strukturen. `SALDO_MINPENSION_URL=file:///…/sida.html npm run dev` pekar fönstret mot en sparad sida för test.
+
+I webbläsarläget (`npm run dev:web`) går avläsningen inte att göra; där kan granskningen visas med exempelvärden som inte sparas.
+
 ## Riktigt eller simulerat
 
 Gränssnittet och logiken för kategorisering, import, analys och pensionsmodell är på riktigt. Följande kräver externa tjänster och är **simulerade** tills de kopplas in:
 
 - **Enable Banking**: nyckelfilen (.pem) importeras och lagras krypterad i main-processen, men inga API-anrop görs ännu. ”Lägg till bank”, ”Förnya” och ”Synka nu” går igenom BankID-flödet med knappen *Simulera godkänt*. Nästa steg: signera JWT i main-processen och hämta konton/transaktioner.
-- **minPension**: Mac-appen öppnar www.minpension.se i ett eget fönster med tillfällig session, men sidan läses inte av än. Värdena i ”Det här hittade vi” är påhittade utifrån senaste hämtningen.
 - **AI-förslag**: en lokal nyckelordsmotor (`aiSuggest`) med säkerhet i procent. Kan bytas mot en språkmodell i main-processen som bara får beskrivning och belopp.
 - **Säkerhetskopia varje natt** och **bevakad mapp** är inställningar utan schemaläggning bakom.
 - Lagringen är en krypterad JSON-fil, inte SQLite som i överlämningen; datamodellen följer tabellerna där och kan flyttas till SQLite senare.

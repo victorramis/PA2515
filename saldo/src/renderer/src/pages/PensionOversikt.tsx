@@ -11,6 +11,7 @@ import { formatNumber, formatPct, isoDate, parseAmount } from '@/lib/format'
 import { useMoney } from '@/lib/hooks'
 import type { AppData, PrivateAsset } from '@/lib/types'
 import { useData, useStore } from '@/store'
+import { pensionBuckets } from '@/lib/pension-map'
 
 export function savingsAccounts(d: AppData) {
   const list = d.accounts.filter((a) => /spar/i.test(a.name))
@@ -45,7 +46,14 @@ export function PensionOversikt() {
     )
 
   const delta = p.total - p.prevTotal
-  const kinds = d.pensions.map((x) => ({ ...x, v: p.last.values[x.id]?.value ?? 0 }))
+  const B = pensionBuckets(d)
+  const kinds = [
+    { id: 'k0', name: 'Inkomstpension', color: '#2E7D8C', v: B[0] },
+    { id: 'k1', name: 'Premiepension', color: '#3E95CF', v: B[1] },
+    { id: 'k2', name: 'Tjänstepension', color: '#D9822B', v: B[2] },
+    { id: 'k3', name: 'Privat pension', color: '#8A5CC2', v: B[3] }
+  ]
+  const shown = d.pensions.filter((x) => p.last.values[x.id] || p.prev?.values[x.id])
   const hist = d.snapshots.map((s) => ({ date: s.fetchedAt.slice(0, 10), total: p.tot(s), ...Object.fromEntries(d.pensions.map((x) => [x.id, s.values[x.id]?.value ?? 0])) }))
   const privTotal = sav.total + d.privateAssets.reduce((s, a) => s + a.value, 0)
 
@@ -85,7 +93,7 @@ export function PensionOversikt() {
             <Card key={k.id} className="px-4 py-3.5">
               <div className="flex items-center gap-2 text-label text-text2">
                 <span className="h-2.5 w-2.5 rounded-sm" style={{ background: k.color }} />
-                {k.name.replace(' ITP 1', '').replace('Privat pensionssparande', 'Privat pension')}
+                {k.name}
               </div>
               <div className="num mt-1 text-[20px] font-semibold">{kr(k.v)}</div>
               <div className="num text-label text-text3">{formatPct((k.v / p.total) * 100)} av totalen</div>
@@ -103,14 +111,14 @@ export function PensionOversikt() {
                 <tr>
                   <th className="th pl-[18px]">Pension</th>
                   <th className="th">Bolag</th>
-                  <th className="th">Typ</th>
+                  <th className="th max-[1500px]:hidden">Typ</th>
                   <th className="th text-right">Värde</th>
                   <th className="th text-right">Värdedatum</th>
                   <th className="th pr-[18px] text-right">Sedan förra</th>
                 </tr>
               </thead>
               <tbody>
-                {d.pensions.map((x) => {
+                {shown.map((x) => {
                   const v = p.last.values[x.id]
                   const pv = p.prev?.values[x.id]
                   const dd = v && pv ? v.value - pv.value : 0
@@ -125,12 +133,12 @@ export function PensionOversikt() {
                           </div>
                         </div>
                       </td>
-                      <td className="td h-[52px]">{x.company}</td>
-                      <td className="td h-[52px] text-text2">{x.kind}</td>
+                      <td className="td h-[52px] max-w-[200px] truncate">{x.company}</td>
+                      <td className="td h-[52px] text-text2 max-[1500px]:hidden">{x.kind}</td>
                       <td className="td num h-[52px] text-right font-semibold">{kr(v?.value ?? 0)}</td>
                       <td className="td num h-[52px] text-right text-text2">{v?.valueDate}</td>
                       <td className="td num h-[52px] pr-[18px] text-right" style={{ color: dd > 0 ? 'var(--pos)' : dd < 0 ? 'var(--neg)' : 'var(--text3)' }}>
-                        {!pv ? 'Ny' : dd === 0 ? 'Oförändrad' : kr(dd, { sign: true })}
+                        {!v ? 'Saknas i senaste' : !pv ? 'Ny' : dd === 0 ? 'Oförändrad' : kr(dd, { sign: true })}
                       </td>
                     </tr>
                   )
@@ -145,14 +153,14 @@ export function PensionOversikt() {
               <ResponsiveContainer>
                 <BarChart data={hist} margin={{ top: 18, right: 0, bottom: 0, left: 0 }} barCategoryGap="22%">
                   <CartesianGrid {...gridProps} />
-                  <XAxis dataKey="date" {...axisProps} tick={{ fontSize: 10.5, fill: 'var(--text3)' }} interval={0} />
+                  <XAxis dataKey="date" {...axisProps} tick={{ fontSize: 10.5, fill: 'var(--text3)' }} interval="preserveStartEnd" minTickGap={8} tickFormatter={(v: string) => (hist.length > 4 ? v.slice(2) : v)} />
                   <YAxis {...axisProps} width={50} tickFormatter={axis} />
                   <Tooltip
                     cursor={{ fill: 'var(--surface2)' }}
                     content={({ active, payload }) => {
                       if (!active || !payload?.length) return null
                       const r = payload[0].payload as Record<string, number | string>
-                      return <TipBox minWidth={210} title={`Hämtat ${r.date}`} rows={d.pensions.map((x) => ({ label: x.name, value: kr(Number(r[x.id])), color: x.color }))} foot={{ label: 'Totalt', value: kr(Number(r.total)) }} />
+                      return <TipBox minWidth={210} title={`Hämtat ${r.date}`} rows={d.pensions.filter((x) => Number(r[x.id]) > 0).map((x) => ({ label: x.name, value: kr(Number(r[x.id])), color: x.color }))} foot={{ label: 'Totalt', value: kr(Number(r.total)) }} />
                     }}
                   />
                   {d.pensions.map((x, i) => (

@@ -1,6 +1,7 @@
-import { app, BrowserWindow, dialog, ipcMain, nativeTheme, safeStorage, session, shell, systemPreferences } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain, nativeTheme, safeStorage, shell, systemPreferences } from 'electron'
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { join, basename } from 'node:path'
+import { registerMinPension } from './minpension'
 
 const isMac = process.platform === 'darwin'
 const dataDir = () => app.getPath('userData')
@@ -75,23 +76,7 @@ ipcMain.handle('key:import', async () => {
   return { fileName: basename(r.filePaths[0]), importedAt: new Date().toISOString().slice(0, 10) }
 })
 
-ipcMain.handle('minpension:open', () => {
-  return new Promise<'closed'>((resolve) => {
-    // Tillfällig partition: inga cookies eller sessioner sparas efter hämtningen.
-    const part = session.fromPartition(`minpension-${Date.now()}`, { cache: false })
-    const win = new BrowserWindow({
-      width: 1100,
-      height: 780,
-      parent: main ?? undefined,
-      title: 'minPension',
-      webPreferences: { session: part, contextIsolation: true, nodeIntegration: false, sandbox: true }
-    })
-    win.loadURL('https://www.minpension.se/')
-    win.on('closed', () => {
-      part.clearStorageData().finally(() => resolve('closed'))
-    })
-  })
-})
+registerMinPension(() => main)
 
 ipcMain.handle('touchid:prompt', async (_e, reason: string) => {
   if (!isMac || !systemPreferences.canPromptTouchID()) return true
